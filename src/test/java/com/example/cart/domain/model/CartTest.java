@@ -21,6 +21,8 @@ class CartTest {
     void testCreateEmptyCart() {
         Cart cart = new Cart("peppydays");
         cartRepository.save(cart);
+
+        // Hibernate: insert into carts (items, user) values (?, ?)
     }
 
     @Test
@@ -30,6 +32,8 @@ class CartTest {
         cart.addItem(new CartItem("KNIFE", 3));
         cart.addItem(new CartItem("BOOK", 2));
         cartRepository.save(cart);
+
+        // Hibernate: insert into carts (items, user) values (?, ?)
     }
 
     @Test
@@ -37,25 +41,31 @@ class CartTest {
     void testAddItemIntoEmptyCart() {
         Cart cart = new Cart("peppydays");
         cartRepository.save(cart);
-
         cart.addItem(new CartItem("KNIFE", 3));
         cartRepository.save(cart);
+
+        // Hibernate: insert into carts (items, user) values (?, ?)
+        // Hibernate: update carts set items=?, user=? where id=?
     }
 
     @Test
     void testLoadCart() {
         // insert into carts values (100, 'dongkyun', '[{"sku": "KNIFE", "quantity": 5}, {"sku": "SPOON", "quantity": 10}]');
-        Cart cart = cartRepository.findById(100L).get();
 
+        Cart cart = cartRepository.findById(100L).get();
         assert cart.getUser().equals("dongkyun");
         assert cart.getItems().size() == 2;
+
+        // Hibernate: select cart0_.id as id1_0_0_, cart0_.items as items2_0_0_, cart0_.user as user3_0_0_ from carts cart0_ where cart0_.id=?
     }
 
     @Test
     void testLoadableWhenAttributeKeyHasTwoNames() {
         // insert into carts values (101, 'hajoon', '[{"sku": "KNIFE", "quantity": 5, "qty": 5}]');
-        Cart cart = cartRepository.findById(101L).get();
 
+        Cart cart = cartRepository.findById(101L).get();
         assert cart.getItems().get(0).getQuantity() == 5;
+
+        // Hibernate: select cart0_.id as id1_0_0_, cart0_.items as items2_0_0_, cart0_.user as user3_0_0_ from carts cart0_ where cart0_.id=?
     }
 }
