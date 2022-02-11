@@ -2,8 +2,8 @@ create database cart;
 
 create table cart.carts (
     id int auto_increment primary key,
-    name varchar(100),
-    items json
+    user varchar(100),
+    items text
 );
 
 insert into carts values (100, 'dongkyun', '[{"sku": "KNIFE", "quantity": 5}, {"sku": "SPOON", "quantity": 10}]');
